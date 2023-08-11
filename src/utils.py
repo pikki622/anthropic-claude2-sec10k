@@ -182,9 +182,7 @@ def get_10k_filing_urls(
         for filing in filings["filings"]
         if filing["formType"] == "10-K"
     ]
-    annual_10k_filings = {date: link for item in links for date, link in item.items()}
-
-    return annual_10k_filings
+    return {date: link for item in links for date, link in item.items()}
 
 
 def get_sec_data(filings: Dict[str, str]) -> Tuple[str, Dict[str, str]]:
@@ -262,6 +260,5 @@ def get_ciks(filename: str) -> List[str]:
     """Get a list of CIKs from a file."""
     ciks = []
     with open(filename, "r") as fin:
-        for cik in fin:
-            ciks.append(cik.strip())
+        ciks.extend(cik.strip() for cik in fin)
     return ciks
